@@ -15,7 +15,8 @@
     "sequelize": "^6",
     "@sequelize/core": "^7.0.0-alpha.10",
     "sinon": "^13",
-    "sinon-chai": "^3"
+    "sinon-chai": "^3",
+    "tedious": "^16.0.0"
   },
   "scripts": {
     "_test": "ts-node setup/runner.ts",

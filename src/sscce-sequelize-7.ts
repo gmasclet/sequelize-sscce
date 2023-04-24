@@ -1,12 +1,9 @@
 import { DataTypes, Model } from '@sequelize/core';
 import { createSequelize7Instance } from '../setup/create-sequelize-instance';
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-// if your issue is dialect specific, remove the dialects you don't need to test on.
-export const testingOnDialects = new Set(['mssql', 'sqlite', 'mysql', 'mariadb', 'postgres', 'postgres-native']);
-
-// You can delete this file if you don't want your SSCCE to be tested against Sequelize 7
+// This issue only affects MSSQL.
+export const testingOnDialects = new Set(['mssql']);
 
 // Your SSCCE goes inside this function.
 export async function run() {
@@ -30,12 +27,10 @@ export async function run() {
     modelName: 'Foo',
   });
 
-  // You can use sinon and chai assertions directly in your SSCCE.
-  const spy = sinon.spy();
-  sequelize.afterBulkSync(() => spy());
   await sequelize.sync({ force: true });
-  expect(spy).to.have.been.called;
 
-  console.log(await Foo.create({ name: 'TS foo' }));
-  expect(await Foo.count()).to.equal(1);
+  await Foo.create({name: 'bar'});
+
+  const results = await Foo.findAll({limit: 0});
+  expect(results.length).to.equal(0);
 }
