@@ -29,8 +29,11 @@ export async function run() {
 
   await sequelize.sync({ force: true });
 
+  // Create and persist an instance in the Foo table.
   await Foo.create({name: 'bar'});
 
+  // We expect findAll() to return no result if the limit is 0.
+  // This is not the case on MSSQL, the instance is returned.
   const results = await Foo.findAll({limit: 0});
   expect(results.length).to.equal(0);
 }
